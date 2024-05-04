@@ -12,6 +12,7 @@
 
 .button_submit {
 	background: var(--gold, #ffc802);
+
 	&:hover {
 		background: var(--gold, #ffedab);
 	}
@@ -19,6 +20,7 @@
 
 .button_reset {
 	background-color: var(--gold, white);
+
 	&:hover {
 		background-color: var(--gold, #000000);
 

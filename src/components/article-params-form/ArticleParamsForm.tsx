@@ -7,16 +7,18 @@ import {
 	backgroundColors,
 	contentWidthArr,
 	fontSizeOptions,
+	defaultArticleState,
 } from 'src/constants/articleProps';
 import { Select } from '../select';
 
 import styles from './ArticleParamsForm.module.scss';
-import { SyntheticEvent, useRef, useState } from 'react';
+import { FormEvent, useRef, useState } from 'react';
 import { useOutsideClickClose } from '../select/hooks/useOutsideClickClose';
 import { ArticleStateType } from 'src/constants/articleProps';
 import { Separator } from '../separator';
 import { RadioGroup } from '../radio-group';
 import { Text } from '../text';
+import { useClose } from 'src/hooks/useClose';
 
 type ArticleParamsFormProps = {
 	currentArticleState: ArticleStateType;
@@ -28,6 +30,7 @@ export const ArticleParamsForm = ({
 	setCurrentArticleState,
 }: ArticleParamsFormProps) => {
 	const rootRef = useRef<HTMLDivElement>(null);
+	const formRef = useRef<HTMLElement | null>(null);
 	const [isOpenForm, setIsOpenForm] = useState<boolean>(false);
 	const [newFontColor, setNewFontColor] = useState(
 		currentArticleState.fontColor
@@ -45,6 +48,12 @@ export const ArticleParamsForm = ({
 		currentArticleState.fontSizeOption
 	);
 
+	useClose({
+		isOpen: isOpenForm,
+		onClose: () => setIsOpenForm(false),
+		rootRef: formRef,
+	});
+
 	useOutsideClickClose({
 		isOpen: isOpenForm,
 		rootRef,
@@ -52,7 +61,7 @@ export const ArticleParamsForm = ({
 		onChange: setIsOpenForm,
 	});
 
-	const formSubmitHandler = (e: SyntheticEvent) => {
+	const formSubmitHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
 
 		setCurrentArticleState({
@@ -65,27 +74,27 @@ export const ArticleParamsForm = ({
 		});
 	};
 
-	const formResetHandler = (e: SyntheticEvent) => {
+	const formResetHandler = (e: FormEvent<HTMLFormElement>) => {
 		e.preventDefault();
-		setNewFontColor(fontColors[0]);
-		setNewFontSize(fontSizeOptions[0]);
-		setNewFontFamily(fontFamilyOptions[0]);
-		setNewBackgroundColor(backgroundColors[0]);
-		setNewContentWidth(contentWidthArr[0]);
+		setNewFontColor(defaultArticleState.fontColor);
+		setNewFontSize(defaultArticleState.fontSizeOption);
+		setNewFontFamily(defaultArticleState.fontFamilyOption);
+		setNewBackgroundColor(defaultArticleState.backgroundColor);
+		setNewContentWidth(defaultArticleState.contentWidth);
 		setCurrentArticleState({
 			...currentArticleState,
-			fontColor: fontColors[0],
-			fontFamilyOption: fontFamilyOptions[0],
-			backgroundColor: backgroundColors[0],
-			contentWidth: contentWidthArr[0],
-			fontSizeOption: fontSizeOptions[0],
+			fontColor: defaultArticleState.fontColor,
+			fontFamilyOption: defaultArticleState.fontFamilyOption,
+			backgroundColor: defaultArticleState.backgroundColor,
+			contentWidth: defaultArticleState.contentWidth,
+			fontSizeOption: defaultArticleState.fontSizeOption,
 		});
 	};
 
 	return (
 		<>
 			<ArrowButton onClick={setIsOpenForm} isOpenForm={isOpenForm} />
-			<aside
+			<div
 				ref={rootRef}
 				className={clsx(styles.container, isOpenForm && styles.container_open)}>
 				<form
@@ -133,7 +142,7 @@ export const ArticleParamsForm = ({
 						<Button title='Применить' type='submit' />
 					</div>
 				</form>
-			</aside>
+			</div>
 		</>
 	);
 };

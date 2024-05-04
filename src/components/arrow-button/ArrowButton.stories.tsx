@@ -13,7 +13,7 @@ export const ArrowButtonStory: Story = {
 	render: () => {
 		return (
 			<>
-				<ArrowButton onClick={() => console.log('CLICK!')}/>
+				<ArrowButton onClick={() => console.log('CLICK!')} />
 			</>
 		);
 	},
