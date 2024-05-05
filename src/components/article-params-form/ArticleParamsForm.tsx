@@ -19,10 +19,11 @@ import { Separator } from '../separator';
 import { RadioGroup } from '../radio-group';
 import { Text } from '../text';
 import { useClose } from 'src/hooks/useClose';
+import React, { SetStateAction, Dispatch } from 'react';
 
 type ArticleParamsFormProps = {
 	currentArticleState: ArticleStateType;
-	setCurrentArticleState: (params: any) => void;
+	setCurrentArticleState: Dispatch<SetStateAction<ArticleStateType>>;
 };
 
 export const ArticleParamsForm = ({
@@ -92,10 +93,9 @@ export const ArticleParamsForm = ({
 	};
 
 	return (
-		<>
+		<div ref={rootRef}>
 			<ArrowButton onClick={setIsOpenForm} isOpenForm={isOpenForm} />
-			<div
-				ref={rootRef}
+			<aside
 				className={clsx(styles.container, isOpenForm && styles.container_open)}>
 				<form
 					className={styles.form}
@@ -142,7 +142,7 @@ export const ArticleParamsForm = ({
 						<Button title='Применить' type='submit' />
 					</div>
 				</form>
-			</div>
-		</>
+			</aside>
+		</div>
 	);
 };

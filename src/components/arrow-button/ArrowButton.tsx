@@ -1,5 +1,4 @@
 import arrow from 'src/images/arrow.svg';
-import { SyntheticEvent, useEffect, useState } from 'react';
 import { clsx } from 'clsx';
 
 import styles from './ArrowButton.module.scss';
@@ -27,9 +26,7 @@ export const ArrowButton = ({
 			className={clsx(styles.container, {
 				[styles.container_open]: isOpenForm,
 			})}
-			onClick={(e: SyntheticEvent) => {
-				arrowClickHandler();
-			}}>
+			onClick={arrowClickHandler}>
 			<img
 				src={arrow}
 				alt='иконка стрелочки'
